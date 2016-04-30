@@ -1,0 +1,13 @@
+--!WARNING! IN COMMENTS DO NOT ENTER THE DIGITS one OR zero THEY WILL MESS UP THE OUTPUT FILE
+
+--Enter bits on the leftmost side of the file, makes it easier to debugg
+
+
+
+
+ol23456789ABCDEF --first sixteen (fist two chars are letter 'O' and 'L') this way they won't print into the file
+GHIJKMNOPQRSTUVW --Second sixteen (total 32)
+
+ol23456789ABCDEFGHIJKMNOPQRSTUVW --helps align my binary so I can check for missing/extra bits
+
+101 --test
