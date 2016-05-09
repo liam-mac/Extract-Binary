@@ -11,59 +11,55 @@ Outputs: BINARY.txt
 #include <stdio.h>
 #include <stdlib.h>
 
+#define RAM_SIZE 2304
+/*  Allows up to 512 32-bit instructions w/ 4-bit parity
+    512*36=18432 <--exact # of bits in RAM block
+    18432/8=2304    */ 
+
 
 int main(){
 
 FILE *Orig_file;
 FILE *binary_file;
 
-int i;
-char input_char;//Represents the current character
-char char_array[2304]; // 512X36 w/ parity..512*36=18432 (<--exact # of bits in RAM block), 18432/8=2304
-// allows up to 512 32-bit instructions w/ 4-bit parity
-char *string_ptr;
-char string[] ="This is a string.";
+char input_char; //The current character
+char char_array[RAM_SIZE]; 
+
 
 //Open File
 //TODO: generalize this operation
-Orig_file=fopen("my_input_program.txt" ,"r"); //Save the input code as my_program
+Orig_file=fopen("my_input_program.txt" ,"r");
 
-//TODO: change error messages to be a formal error message on the console 
 if(Orig_file==NULL)
     {
-        printf("Input file is empty");
+	fprintf(stderr, "Cannot open input file\n");
+	exit(-1);
     }
-    
-else if(!Orig_file)
+
+//Read and parse file
+else 
     {
-    printf("Input file not found"); //What does it mean if the pointer is 0 and not null?
-    }
-else    //Read and parse file
-    {
-    i=0;    //declare and define here   //The way I use I is a little wonky...
-    input_char=5;//Random # zero would mess this up //What why do I have this? Just delete?
+    int i=0;
     while(input_char != EOF)
-        {//while
-            input_char = getc(Orig_file);//Gets the next byte from the input file
-            printf("%d", input_char);
-            if(input_char == 0x30 || input_char == 0x31) //if an ASCII 0 or 1 //Change to use single quotes
+        { //while
+        input_char = getc(Orig_file); //Gets the next byte from the infile
+        if(input_char == '0' || input_char == '1') //if 0 or 1 is found
             {
-                (char_array[i]) = input_char;//
-                i++; 			//Only increment when a 1 or 0 is found
-            }//if 0 or 1
-        }//End while
+            char_array[i] = input_char;
+            i++; //Only increment when a 1 or 0 is found
+            } //if 0 or 1
+        } //while !EOF
     char_array[i]='\0'; //Set EOF
+    } //else
 
-    binary_file=fopen("BINARY.txt" ,"w");   //Change this, doesn't beling in a place where you save the data.
-    fputs(&(char_array[0]), binary_file);   //just fputs (char_array, binary file)?
-    fclose(binary_file);
+//Save to new text file
+binary_file=fopen("BINARY.txt" ,"w");
+fputs(char_array, binary_file);
 
-    }//end else
+//Close files
+fclose(binary_file);
+fclose(Orig_file);
 
-
-//Close file
-fclose(Orig_file);//should probably close first
-
-printf("\n\nExtraction Complete!!!"); //system pause? Or make a tiny window?
+printf("\nExtraction Complete!!!\n");
 return 0;
 };//end main

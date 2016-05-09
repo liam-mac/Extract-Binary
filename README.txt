@@ -9,6 +9,10 @@ Download Output_Binary.exe and My_input_file.txt and keep them in the same folde
 
 
 TODO:
--Refactor and recomment
+-Refactor and recomment **COMPLETE**
 -Make it so that 0's and 1's in the comments will not be interprete as code. 
 -Make code more portable and self contained
+
+Maybe:
+-Make tiny pop-up window to notify success
+-Make an Windows installer so that it's already on $PATH?
